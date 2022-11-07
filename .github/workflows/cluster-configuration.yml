@@ -26,6 +26,8 @@ jobs:
     name: Terraform
     environment: cluster
     steps:
+      - name: Create kube config folder
+        run: mkdir -p $KUBE_CONFIG_PATH
       - name: Auth with Kubernetes cluster
         run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
       - name: Checkout
