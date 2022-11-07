@@ -12,9 +12,8 @@ env:
   TF_VAR_tls_secret_key: ${{ secrets.TLS_SECRET_KEY }}
   TF_VAR_cors_origins: ${{ secrets.CORS_ORIGINS }}
   TF_VAR_docker_config_json: ${{ secrets.DOCKER_CONFIG_JSON }}
-  KUBE_CONFIG_PATH: "~/.kube/config"
-  KUBE_CONFIG_DIR: "~/.kube"
-  KUBECONFIG: ${{ secrets.KUBECONFIG }}
+  TF_VAR_kube_config_path: "/home/deploy/config"
+  KUBECONFIG: /home/deploy/config
 
 permissions:
   contents: read
@@ -40,12 +39,13 @@ jobs:
     name: Terraform
     environment: prod
     steps:
-      - name: Create kube config folder
-        run: mkdir -p $KUBE_CONFIG_DIR
-      - name: Auth with Kubernetes cluster
-        run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Create kubeconfig directory
+        run: sudo mkdir -p /home/deploy
+      # auth kubernetes cluster
+      - name: Auth with Kubernetes cluster
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > $KUBECONFIG
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
