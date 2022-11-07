@@ -3,7 +3,8 @@ name: "Infra - cluster configuration"
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
-  KUBE_CONFIG_PATH: "~/.kube"
+  KUBE_CONFIG_PATH: "~/.kube/config"
+  KUBE_CONFIG_DIR: "~/.kube"
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
 permissions:
@@ -31,9 +32,9 @@ jobs:
     environment: cluster
     steps:
       - name: Create kube config folder
-        run: mkdir -p $KUBE_CONFIG_PATH
+        run: mkdir -p $KUBE_CONFIG_DIR
       - name: Auth with Kubernetes cluster
-        run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH/config
+        run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Terraform
