@@ -10,7 +10,7 @@ resource "helm_release" "users_db" {
 }
 
 resource "helm_release" "mongodb" {
-  name       = "users-db"
+  name       = "mongodb"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "mongodb"
 
