@@ -77,7 +77,7 @@ resource "kubernetes_secret_v1" "docker_registry" {
 
 resource "kubernetes_default_service_account" "default" {
   metadata {
-    name = "${var.namespace}-default"
+    name = "default"
   }
   image_pull_secret {
     name = "docker-registry"
