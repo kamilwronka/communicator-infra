@@ -31,12 +31,12 @@ jobs:
     name: Terraform
     environment: cluster
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Create kube config folder
         run: mkdir -p $KUBE_CONFIG_DIR
       - name: Auth with Kubernetes cluster
         run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
