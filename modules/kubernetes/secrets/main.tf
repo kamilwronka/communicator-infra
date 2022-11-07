@@ -61,3 +61,25 @@ resource "kubernetes_secret_v1" "cdn_secrets" {
     cdnUrl : var.cdn_url
   }
 }
+
+resource "kubernetes_secret_v1" "docker_registry" {
+  metadata {
+    name      = "docker-registry"
+    namespace = var.namespace
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = var.docker_config_json
+  }
+}
+
+resource "kubernetes_service_account_v1" "default" {
+  metadata {
+    name = "default"
+  }
+  image_pull_secret {
+    name = "docker-registry"
+  }
+}

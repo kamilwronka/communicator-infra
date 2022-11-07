@@ -9,6 +9,7 @@ env:
   TF_VAR_tls_secret_crt: ${{ secrets.PROD_TLS_SECRET_CRT }}
   TF_VAR_tls_secret_key: ${{ secrets.PROD_TLS_SECRET_KEY }}
   TF_VAR_cors_origins: ${{ secrets.PROD_CORS_ORIGINS }}
+  TF_VAR_docker_config_json: ${{ secrets.PROD_DOCKER_CONFIG_JSON }}
   KUBE_CONFIG_PATH: "~/.kube/config"
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
 

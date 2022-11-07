@@ -67,6 +67,7 @@ module "kubernetes_secrets" {
   key_auth_key               = var.key_auth_key
   tls_secret_crt             = var.tls_secret_crt
   tls_secret_key             = var.tls_secret_key
+  docker_config_json         = var.docker_config_json
   cdn_url                    = module.aws.cloudfront_url
 
   depends_on = [

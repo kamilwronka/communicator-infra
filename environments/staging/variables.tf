@@ -31,3 +31,7 @@ variable "tls_secret_key" {}
 variable "cors_origins" {
   type = list(string)
 }
+
+variable "docker_config_json" {
+  type = string
+}

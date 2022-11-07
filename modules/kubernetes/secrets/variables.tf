@@ -41,3 +41,7 @@ variable "tls_secret_key" {
 variable "cdn_url" {
   type = string
 }
+
+variable "docker_config_json" {
+  type = string
+}
