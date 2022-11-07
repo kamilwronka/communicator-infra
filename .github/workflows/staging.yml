@@ -22,12 +22,14 @@ on:
     branches:
       - master
     paths:
-      - environments/staging/**
+      - "environments/staging/**"
+      - ".github/**"
   pull_request:
     branches:
       - master
     paths:
-      - environments/staging/**
+      - "environments/staging/**"
+      - ".github/**"
 
 jobs:
   terraform:

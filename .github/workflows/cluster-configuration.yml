@@ -14,11 +14,13 @@ on:
       - master
     paths:
       - "cluster/**"
+      - ".github/**"
   pull_request:
     branches:
       - master
     paths:
       - "cluster/**"
+      - ".github/**"
 
 jobs:
   terraform:

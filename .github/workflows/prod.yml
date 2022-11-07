@@ -22,12 +22,14 @@ on:
     branches:
       - master
     paths:
-      - environments/prod/**
+      - "environments/prod/**"
+      - ".github/**"
   pull_request:
     branches:
       - master
     paths:
-      - environments/prod/**
+      - "environments/prod/**"
+      - ".github/**"
 
 jobs:
   terraform:
