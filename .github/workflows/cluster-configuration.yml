@@ -1,7 +1,7 @@
 name: "Infra - cluster configuration"
 
 env:
-  KUBE_CONFIG_PATH: "~/.kube/config"
+  KUBE_CONFIG_PATH: "~/.kube"
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
 permissions:
@@ -31,7 +31,7 @@ jobs:
       - name: Create kube config folder
         run: mkdir -p $KUBE_CONFIG_PATH
       - name: Auth with Kubernetes cluster
-        run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
+        run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH/config
       - name: Checkout
         uses: actions/checkout@v2
       - name: Setup Terraform
