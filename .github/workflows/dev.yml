@@ -26,13 +26,13 @@ on:
       - master
     paths:
       - "environments/dev/**"
-      - ".github/**"
+      - ".github/workflows/dev.yml"
   pull_request:
     branches:
       - master
     paths:
       - "environments/dev/**"
-      - ".github/**"
+      - ".github/workflows/dev.yml"
 
 jobs:
   terraform:
