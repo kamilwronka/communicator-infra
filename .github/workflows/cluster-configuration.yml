@@ -34,7 +34,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create kube config folder
-        run: mkdir -p $KUBE_CONFIG_DIR
+        run: sudo mkdir -p $KUBE_CONFIG_DIR
       - name: Auth with Kubernetes cluster
         run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
       - name: Setup Terraform
