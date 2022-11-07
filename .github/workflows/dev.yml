@@ -60,7 +60,7 @@ jobs:
         run: terraform plan -input=false -no-color -out tf.plan
         working-directory: ./environments/dev
         shell: bash
-      - name: Terraform show
+      - name: Terraform Show
         id: show
         run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
         working-directory: ./environments/dev
