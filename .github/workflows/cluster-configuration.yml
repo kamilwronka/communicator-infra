@@ -13,12 +13,12 @@ on:
     branches:
       - master
     paths:
-      - cluster/**
+      - "cluster/**"
   pull_request:
     branches:
       - master
     paths:
-      - cluster/**
+      - "cluster/**"
 
 jobs:
   terraform:
