@@ -1,5 +1,5 @@
-resource "helm_release" "users_db" {
-  name       = "users-db"
+resource "helm_release" "users_database" {
+  name       = "users-database"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "postgresql"
 
