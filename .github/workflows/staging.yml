@@ -1,15 +1,15 @@
 name: "Infra - staging"
 
 env:
-  TF_VAR_aws_access_key_id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
-  TF_VAR_aws_secret_access_key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
-  TF_VAR_jwt_auth_secret_key: ${{ secrets.STAGING_JWT_AUTH_SECRET_KEY }}
-  TF_VAR_jwt_auth_secret_public_key: ${{ secrets.STAGING_JWT_AUTH_SECRET_PUBLIC_KEY }}
-  TF_VAR_key_auth_key: ${{ secrets.STAGING_KEY_AUTH_KEY }}
-  TF_VAR_tls_secret_crt: ${{ secrets.STAGING_TLS_SECRET_CRT }}
-  TF_VAR_tls_secret_key: ${{ secrets.STAGING_TLS_SECRET_KEY }}
-  TF_VAR_cors_origins: ${{ secrets.STAGING_CORS_ORIGINS }}
-  TF_VAR_docker_config_json: ${{ secrets.STAGING_DOCKER_CONFIG_JSON }}
+  TF_VAR_aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  TF_VAR_aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  TF_VAR_jwt_auth_secret_key: ${{ secrets.JWT_AUTH_SECRET_KEY }}
+  TF_VAR_jwt_auth_secret_public_key: ${{ secrets.JWT_AUTH_SECRET_PUBLIC_KEY }}
+  TF_VAR_key_auth_key: ${{ secrets.KEY_AUTH_KEY }}
+  TF_VAR_tls_secret_crt: ${{ secrets.TLS_SECRET_CRT }}
+  TF_VAR_tls_secret_key: ${{ secrets.TLS_SECRET_KEY }}
+  TF_VAR_cors_origins: ${{ secrets.CORS_ORIGINS }}
+  TF_VAR_docker_config_json: ${{ secrets.DOCKER_CONFIG_JSON }}
   KUBE_CONFIG_PATH: "~/.kube/config"
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
