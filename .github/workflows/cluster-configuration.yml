@@ -37,6 +37,8 @@ jobs:
         run: sudo mkdir -p $KUBE_CONFIG_DIR
       - name: Auth with Kubernetes cluster
         run: echo "$KUBECONFIG" | base64 -d > $KUBE_CONFIG_PATH
+      - name: debug
+        run: sudo cat $KUBE_CONFIG_PATH
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
