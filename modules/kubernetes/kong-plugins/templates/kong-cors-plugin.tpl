@@ -9,7 +9,9 @@ metadata:
     global: "true"
 config:
   origins: 
-    ${cors_origins}
+    %{~ for origin in cors_origins ~}
+    - ${origin}
+    %{~ endfor ~}
   methods:
     - GET
     - POST

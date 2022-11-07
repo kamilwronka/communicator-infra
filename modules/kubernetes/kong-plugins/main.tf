@@ -1,11 +1,7 @@
 resource "kubernetes_manifest" "kong_cors_plugin" {
   manifest = yamldecode(templatefile("${path.module}/templates/kong-cors-plugin.tpl", {
     namespace    = var.namespace
-    cors_origins = <<-EOT
-    %{for origin in var.cors_origins~}
-    - ${origin}
-    %{endfor~}
-    EOT
+    cors_origins = var.cors_origins
   }))
 }
 
