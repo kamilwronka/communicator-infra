@@ -53,7 +53,7 @@ resource "helm_release" "istiod" {
   repository = "https://istio-release.storage.googleapis.com/charts"
   chart      = "istiod"
 
-  timeout         = 120
+  timeout         = 180
   cleanup_on_fail = true
   force_update    = false
   namespace       = kubernetes_namespace_v1.istio_system.metadata.0.name
