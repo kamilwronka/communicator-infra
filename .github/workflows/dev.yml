@@ -55,7 +55,7 @@ jobs:
         run: terraform init
         working-directory: ./environments/dev
         shell: bash
-      - name: Terraform plan
+      - name: Terraform Plan
         id: plan
         run: terraform plan -input=false -no-color -out tf.plan
         working-directory: ./environments/dev
