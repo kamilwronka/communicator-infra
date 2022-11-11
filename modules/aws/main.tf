@@ -26,6 +26,24 @@ resource "aws_s3_bucket_cors_configuration" "bucket_cors" {
   }
 }
 
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.bucket.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.identity.iam_arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "mybucket" {
+  bucket = aws_s3_bucket.bucket.id
+  policy = data.aws_iam_policy_document.s3_policy.json
+}
+
+
 locals {
   s3_origin_id = "${var.project_name}-${var.environment}-s3-origin"
 }
@@ -33,6 +51,7 @@ locals {
 resource "aws_cloudfront_origin_access_identity" "identity" {
   comment = "s3 identity"
 }
+
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {

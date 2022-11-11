@@ -41,7 +41,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Create Kubernetes config directory
+      - name: Create Kubernetexs config directory
         run: sudo mkdir -p /home/deploy
       - name: Copy Kubernetes config to access the cluster
         run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > $KUBECONFIG
