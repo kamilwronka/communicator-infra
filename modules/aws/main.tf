@@ -15,7 +15,7 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
 }
 
 resource "aws_s3_bucket_cors_configuration" "bucket_cors" {
-  bucket = aws_s3_bucket.bucket.bucket.id
+  bucket = aws_s3_bucket.bucket.id
 
   cors_rule {
     allowed_headers = ["*"]
