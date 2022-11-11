@@ -36,9 +36,8 @@ resource "aws_cloudfront_origin_access_identity" "identity" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name              = aws_s3_bucket.bucket.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
-    origin_id                = local.s3_origin_id
+    domain_name = aws_s3_bucket.bucket.bucket_regional_domain_name
+    origin_id   = local.s3_origin_id
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.identity.cloudfront_access_identity_path
