@@ -108,6 +108,17 @@ resource "aws_cognito_user_pool" "user_pool" {
   name                     = "${var.project_name}-${var.environment}"
   auto_verified_attributes = ["email"]
   alias_attributes         = ["email"]
+  schema {
+    name                     = "user_id"
+    attribute_data_type      = "String"
+    developer_only_attribute = false
+    mutable                  = false
+    required                 = true
+    string_attribute_constraints { # if it is a string
+      min_length = 0               # 10 for "birthdate"
+      max_length = 2048            # 10 for "birthdate"
+    }
+  }
 
   lambda_config {
     pre_sign_up          = "arn:aws:lambda:eu-central-1:${data.aws_caller_identity.current.account_id}:function:cognito-${var.environment}-preSignUp"
