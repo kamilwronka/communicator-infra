@@ -113,3 +113,15 @@ resource "aws_cognito_user_pool" "user_pool" {
     pre_token_generation = "arn:aws:lambda:eu-central-1:${data.aws_caller_identity.current.account_id}:function:cognito-${var.environment}-preTokenGeneration"
   }
 }
+
+resource "aws_cognito_user_pool_client" "web_client" {
+  name = "web"
+
+  user_pool_id = aws_cognito_user_pool.user_pool.id
+}
+
+resource "aws_cognito_user_pool_client" "native_client" {
+  name = "native"
+
+  user_pool_id = aws_cognito_user_pool.user_pool.id
+}
