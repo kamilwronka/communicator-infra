@@ -121,7 +121,7 @@ resource "aws_cognito_user_pool_client" "web_client" {
   user_pool_id                 = aws_cognito_user_pool.user_pool.id
   supported_identity_providers = ["COGNITO"]
   allowed_oauth_scopes         = ["email"]
-  allowed_oauth_flows          = ["client_credentials"]
+  allowed_oauth_flows          = ["code"]
 }
 
 resource "aws_cognito_user_pool_client" "native_client" {
@@ -131,5 +131,5 @@ resource "aws_cognito_user_pool_client" "native_client" {
   user_pool_id                 = aws_cognito_user_pool.user_pool.id
   supported_identity_providers = ["COGNITO"]
   allowed_oauth_scopes         = ["email"]
-  allowed_oauth_flows          = ["client_credentials"]
+  allowed_oauth_flows          = ["code"]
 }
