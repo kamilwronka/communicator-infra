@@ -107,6 +107,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 resource "aws_cognito_user_pool" "user_pool" {
   name                     = "${var.project_name}-${var.environment}"
   auto_verified_attributes = ["email"]
+  alias_attributes         = ["email"]
 
   lambda_config {
     pre_sign_up          = "arn:aws:lambda:eu-central-1:${data.aws_caller_identity.current.account_id}:function:cognito-${var.environment}-preSignUp"
