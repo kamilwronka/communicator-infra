@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_cloudfront_origin_access_control" "default" {
   name                              = "${var.project_name}-${var.environment}"
   origin_access_control_origin_type = "s3"
@@ -99,5 +101,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
+  }
+}
+
+resource "aws_cognito_user_pool" "user_pool" {
+  name                     = "${var.project_name}-${var.environment}"
+  auto_verified_attributes = ["email"]
+
+  lambda_config {
+    pre_sign_up          = "arn:aws:lambda:eu-central-1:${data.aws_caller_identity.current.account_id}:function:cognito-${var.environment}-preSignUp"
+    pre_token_generation = "arn:aws:lambda:eu-central-1:${data.aws_caller_identity.current.account_id}:function:cognito-${var.environment}-preTokenGeneration"
   }
 }
