@@ -113,7 +113,7 @@ resource "aws_cognito_user_pool" "user_pool" {
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = false
-    required                 = true
+    required                 = false
     string_attribute_constraints { # if it is a string
       min_length = 0               # 10 for "birthdate"
       max_length = 2048            # 10 for "birthdate"
