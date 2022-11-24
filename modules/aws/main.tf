@@ -117,11 +117,19 @@ resource "aws_cognito_user_pool" "user_pool" {
 resource "aws_cognito_user_pool_client" "web_client" {
   name = "web"
 
-  user_pool_id = aws_cognito_user_pool.user_pool.id
+  generate_secret              = true
+  user_pool_id                 = aws_cognito_user_pool.user_pool.id
+  supported_identity_providers = ["COGNITO"]
+  allowed_oauth_scopes         = ["email", "openid"]
+  allowed_oauth_flows          = ["code", "implicit"]
 }
 
 resource "aws_cognito_user_pool_client" "native_client" {
   name = "native"
 
-  user_pool_id = aws_cognito_user_pool.user_pool.id
+  generate_secret              = true
+  user_pool_id                 = aws_cognito_user_pool.user_pool.id
+  supported_identity_providers = ["COGNITO"]
+  allowed_oauth_scopes         = ["email", "openid"]
+  allowed_oauth_flows          = ["code", "implicit"]
 }
