@@ -127,3 +127,19 @@ resource "aws_cognito_user_pool_client" "native_client" {
   user_pool_id                 = aws_cognito_user_pool.user_pool.id
   supported_identity_providers = ["COGNITO"]
 }
+
+resource "aws_lambda_permission" "allow_pre_signup_execution_from_user_pool" {
+  statement_id  = "AllowExecutionFromUserPool"
+  action        = "lambda:InvokeFunction"
+  function_name = "cognito-${var.environment}-preSignUp"
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.user_pool.arn
+}
+
+resource "aws_lambda_permission" "allow_pre_token_generation_execution_from_user_pool" {
+  statement_id  = "AllowExecutionFromUserPool"
+  action        = "lambda:InvokeFunction"
+  function_name = "cognito-${var.environment}-preTokenGeneration"
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.user_pool.arn
+}
