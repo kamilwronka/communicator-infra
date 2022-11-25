@@ -111,7 +111,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   schema {
     name                     = "user_id"
     attribute_data_type      = "String"
-    developer_only_attribute = false
+    developer_only_attribute = true
     mutable                  = true
     required                 = false
     string_attribute_constraints { # if it is a string
