@@ -112,7 +112,7 @@ resource "aws_cognito_user_pool" "user_pool" {
     name                     = "user_id"
     attribute_data_type      = "String"
     developer_only_attribute = false
-    mutable                  = false
+    mutable                  = true
     required                 = false
     string_attribute_constraints { # if it is a string
       min_length = 0               # 10 for "birthdate"
