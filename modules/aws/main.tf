@@ -109,14 +109,14 @@ resource "aws_cognito_user_pool" "user_pool" {
   auto_verified_attributes = ["email"]
   alias_attributes         = ["email"]
   schema {
-    name                     = "user_id"
+    name                     = "id"
     attribute_data_type      = "String"
     developer_only_attribute = true
     mutable                  = true
     required                 = false
-    string_attribute_constraints { # if it is a string
-      min_length = 0               # 10 for "birthdate"
-      max_length = 2048            # 10 for "birthdate"
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 2048
     }
   }
 
