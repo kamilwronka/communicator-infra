@@ -105,7 +105,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
-  name                     = "${var.project_name}-${var.environment}"
+  name                     = "${var.project_name}-${var.environment}-user-pool"
   auto_verified_attributes = ["email"]
   alias_attributes         = ["email"]
   schema {
