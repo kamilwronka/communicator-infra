@@ -34,4 +34,5 @@ variable "cors_origins" {
 
 variable "docker_config_json" {
   type = string
+  description = "docker config json in base64"
 }
