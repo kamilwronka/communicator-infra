@@ -19,21 +19,7 @@ permissions:
   contents: read
   pull-requests: write
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - "environments/dev/**"
-      - ".github/workflows/dev.yml"
-      - "modules/**"
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "environments/dev/**"
-      - ".github/workflows/dev.yml"
-      - "modules/**"
+on: workflow_dispatch
 
 jobs:
   terraform:

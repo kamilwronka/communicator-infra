@@ -6,23 +6,7 @@ env:
   TF_VAR_kube_config_path: "/home/deploy/config"
   KUBECONFIG: /home/deploy/config
 
-permissions:
-  contents: read
-  pull-requests: write
-
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - "cluster/**"
-      - ".github/workflows/cluster-configuration.yml"
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "cluster/**"
-      - ".github/workflows/cluster-configuration.yml"
+on: workflow_dispatch
 
 jobs:
   terraform:
