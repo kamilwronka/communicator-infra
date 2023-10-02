@@ -4,6 +4,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
   TF_VAR_kube_config_path: "/home/deploy/config"
+  TF_VAR_cert_issuer_email: ${{ secrets.TERRAFORM_CERT_ISSUER_EMAIL }}
   KUBECONFIG: /home/deploy/config
 
 on: workflow_dispatch
@@ -26,22 +27,63 @@ jobs:
         with:
           terraform_version: 1.3.3
           terraform_wrapper: false
-      - name: Terraform init
-        id: init
+      - name: Terraform init base
+        id: init-base
         run: terraform init
-        working-directory: ./cluster
+        working-directory: ./cluster/base
         shell: bash
-      - name: Terraform plan
-        id: plan
+      - name: Terraform plan base
+        id: plan-base
         run: terraform plan -input=false -no-color -out tf.plan
-        working-directory: ./cluster
+        working-directory: ./cluster/base
         shell: bash
-      - name: Terraform show
-        id: show
+      - name: Terraform show base
+        id: show-base
         run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
-        working-directory: ./cluster
+        working-directory: ./cluster/base
         shell: bash
-      - name: Terraform apply
+      - name: Terraform apply base
+        id: apply-base
         run: terraform apply -input=false tf.plan
-        working-directory: ./cluster
+        working-directory: ./cluster/base
+        shell: bash
+      - name: Terraform init istio
+        id: init-istio
+        run: terraform init
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform plan istio
+        id: plan-istio
+        run: terraform plan -input=false -no-color -out tf.plan
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform show istio
+        id: show-istio
+        run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform apply istio
+        id: apply-istio
+        run: terraform apply -input=false tf.plan
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform init cert-manager
+        id: init-cert-manager
+        run: terraform init
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform plan cert-manager
+        id: plan-cert-manager
+        run: terraform plan -input=false -no-color -out tf.plan
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform show cert-manager
+        id: show-cert-manager
+        run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform apply cert-manager
+        id: apply-cert-manager
+        run: terraform apply -input=false tf.plan
+        working-directory: ./cluster/cert-manager
         shell: bash

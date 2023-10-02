@@ -3,19 +3,17 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.19"
+      version = "~> 2.23.0"
     }
 
     helm = {
       source  = "hashicorp/helm"
-      version = "~> 2.7.1"
+      version = "~> 2.11.0"
     }
   }
 
-  backend "s3" {
-    bucket = "communicator-tf-state"
-    key    = "cluster/terraform.tfstate"
-    region = "eu-central-1"
+  backend "local" {
+    path = "./terraform.tfstate"
   }
 }
 
@@ -88,18 +86,25 @@ resource "helm_release" "kong" {
   namespace       = kubernetes_namespace_v1.kong_istio.metadata.0.name
 }
 
-// mtls
+resource "kubernetes_namespace_v1" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
 
-# resource "kubernetes_manifest" "istio_mtls_config" {
-#   manifest = yamldecode(templatefile("${path.module}/../templates/mtls.tpl", {
-#     mode : "STRICT"
-#     namespace = kubernetes_namespace_v1.istio_system.metadata.0.name
-#   }))
-# }
+resource "helm_release" "cert-manager" {
+  name       = "jetstack"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
 
-# resource "kubernetes_manifest" "kong_mtls_config" {
-#   manifest = yamldecode(templatefile("${path.module}/../templates/mtls.tpl", {
-#     mode : "DISABLE"
-#     namespace = kubernetes_namespace_v1.kong_istio.metadata.0.name
-#   }))
-# }
+  timeout         = 180
+  cleanup_on_fail = true
+  force_update    = false
+  namespace       = kubernetes_namespace_v1.cert_manager.metadata.0.name
+
+  set {
+    name  = "installCRDs"
+    value = true
+  }
+}
+
