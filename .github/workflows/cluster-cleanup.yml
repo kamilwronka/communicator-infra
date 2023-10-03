@@ -1,0 +1,89 @@
+name: "Infra - cluster cleanup"
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFORM_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
+  TF_VAR_kube_config_path: "/home/deploy/config"
+  TF_VAR_cert_issuer_email: ${{ secrets.TERRAFORM_CERT_ISSUER_EMAIL }}
+  KUBECONFIG: /home/deploy/config
+
+on: workflow_dispatch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    name: Terraform
+    environment: cluster
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create kubeconfig directory
+        run: sudo mkdir -p /home/deploy
+      # auth kubernetes cluster
+      - name: Auth with Kubernetes cluster
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > $KUBECONFIG
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.3
+          terraform_wrapper: false
+      - name: Terraform init base
+        id: init-base
+        run: terraform init
+        working-directory: ./cluster/base
+        shell: bash
+      - name: Terraform plan base
+        id: plan-base
+        run: terraform plan -input=false -no-color -out tf.plan
+        working-directory: ./cluster/base
+        shell: bash
+      - name: Terraform show base
+        id: show-base
+        run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
+        working-directory: ./cluster/base
+        shell: bash
+      - name: Terraform destroy base
+        id: destroy-base
+        run: terraform destroy -input=false tf.plan
+        working-directory: ./cluster/base
+        shell: bash
+      - name: Terraform init istio
+        id: init-istio
+        run: terraform init
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform plan istio
+        id: plan-istio
+        run: terraform plan -input=false -no-color -out tf.plan
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform show istio
+        id: show-istio
+        run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform destroy istio
+        id: destroy-istio
+        run: terraform destroy -input=false tf.plan
+        working-directory: ./cluster/istio
+        shell: bash
+      - name: Terraform init cert-manager
+        id: init-cert-manager
+        run: terraform init
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform plan cert-manager
+        id: plan-cert-manager
+        run: terraform plan -input=false -no-color -out tf.plan
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform show cert-manager
+        id: show-cert-manager
+        run: terraform show -no-color tf.plan 2>&1 > /tmp/plan.txt
+        working-directory: ./cluster/cert-manager
+        shell: bash
+      - name: Terraform destroy cert-manager
+        id: destroy-cert-manager
+        run: terraform destroy -input=false tf.plan
+        working-directory: ./cluster/cert-manager
+        shell: bash
