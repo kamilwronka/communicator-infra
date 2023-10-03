@@ -36,6 +36,6 @@ resource "kubernetes_manifest" "istio_mtls_config" {
 resource "kubernetes_manifest" "kong_mtls_config" {
   manifest = yamldecode(templatefile("${path.root}/../../modules/kubernetes/kong-plugins/templates/mtls.tpl", {
     mode : "DISABLE"
-    namespace = "kong-istio"
+    namespace = "kong"
   }))
 }

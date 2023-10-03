@@ -62,19 +62,21 @@ resource "helm_release" "istiod" {
     name  = "meshConfig.accessLogFile"
     value = "/dev/stdout"
   }
-
-  depends_on = [helm_release.istio_base]
 }
 
 // kong
 
-resource "kubernetes_namespace_v1" "kong_istio" {
+resource "kubernetes_namespace_v1" "kong" {
   metadata {
-    name = "kong-istio"
+    name = "kong"
     labels = {
       istio-injection = "enabled"
     }
   }
+
+  depends_on = [
+    helm_release.istiod
+  ]
 }
 
 resource "helm_release" "kong" {
@@ -85,5 +87,29 @@ resource "helm_release" "kong" {
   timeout         = 180
   cleanup_on_fail = true
   force_update    = false
-  namespace       = kubernetes_namespace_v1.kong_istio.metadata.0.name
+  namespace       = kubernetes_namespace_v1.kong.metadata.0.name
+}
+
+resource "kubernetes_namespace_v1" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+
+  depends_on = [helm_release.kong]
+}
+
+resource "helm_release" "cert-manager" {
+  name       = "jetstack"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+
+  timeout         = 180
+  cleanup_on_fail = true
+  force_update    = false
+  namespace       = kubernetes_namespace_v1.cert_manager.metadata.0.name
+
+  set {
+    name  = "installCRDs"
+    value = true
+  }
 }

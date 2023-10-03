@@ -5,8 +5,6 @@ metadata:
   namespace: ${namespace}
   annotations:
     kubernetes.io/ingress.class: kong
-  labels:
-    global: "true"
 config:
   origins: 
     %{~ for origin in cors_origins ~}
